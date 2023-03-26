@@ -9,22 +9,26 @@ using namespace std;
 // ----------------- MAIN ---------------- //
 int main()
 {
+	// Name of file
 	string path = "Users.txt";
 
 	fstream fs;
-
+	// We can read and write without clearing information 
 	fs.open(path, fstream::in | fstream::out | fstream::app);
 
+	// Variables
 	string userName, password, buffUserName, buffPassword;
 	int value = 0;
 	bool validation = false;
 
+	// Checking if did not open
 	if (!fs.is_open())
 	{
 		cout << "Failed connection" << endl;
 	}
 	else
 	{
+		// If open. Main loop
 		do
 		{
 			cout << "Success connection!" << endl;
@@ -71,7 +75,7 @@ int main()
 				Sleep(500);
 				cout << "." << endl;
 				Sleep(500);
-
+				// Reading the file. Reading the current line in file and write it in the buffer variable 
 				while (!fs.eof())
 				{
 					buffUserName = "";
@@ -79,22 +83,23 @@ int main()
 
 					buffPassword = "";
 					fs >> buffPassword;
-
+					// If data in buffer equal inputed data -> Success
 					if (buffUserName == userName && buffPassword == password)
 					{
 						cout << "Success!" << endl;
 						validation = true;
 					}
 				}
-
+				// If data in buffer not equal inputed data -> Fail
 				if (validation == false)
 				{
 					cout << "Login failed" << endl;
 					value = 0;
+					// Asking about retry
 					cout << "Do you want to retry?" << endl;
 					cout << "\n1 - Yes\t2 - No" << endl;
 					cout << "Input: "; cin >> value;
-
+					
 					if (value == 2) validation = true;
 				}
 
@@ -104,10 +109,11 @@ int main()
 				validation = true;
 			}
 
+		// Loop will be run endlessly until user register or logged or not retry
 		} while (validation == false);
 
 	}
-
+	// Don't forget to close the file :)
 	fs.close();
 
 	return 0;
